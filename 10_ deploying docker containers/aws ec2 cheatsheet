@@ -1,0 +1,20 @@
+chmod 400 docker_app.pem
+ssh -i "docker_app.pem" ec2-user@ec2-3-68-160-35.eu-central-1.compute.amazonaws.com
+
+## installing docker in ec2
+
+sudo yum update -y
+sudo yum -y install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+
+## running docker image in ec2
+
+> > locally docker push andrelmm91/node_repo
+> > EC2 docker pull andrelmm91/node_repo
+
+sudo docker run -d --rm -p 80:80 andrelmm91/node_repo
+
+## enabling http access to ec2
+
+security groups > inbound rules > Edit > Type:http > address:0.0.0.0 > save

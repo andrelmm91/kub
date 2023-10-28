@@ -1,0 +1,51 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+  labels:
+    group: example
+spec:
+  selector:
+    app: v2
+  type: LoadBalancer
+  ports:
+    - name: name-of-the-port
+      protocol: "TCP"
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  labels:
+    group: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: v2
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: v2
+        tier: backend
+    spec:
+      containers:
+        - name: nodeapp
+          image: andrelmm91/kub-first-app:v3
+          # imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi

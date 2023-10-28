@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  mongodb:
+    image: "mongo"
+    container_name: mongodb
+    volumes:
+      - data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+  backend:
+    build:
+      context: ./backend
+      # speciify the docker file is not necessary, but there will the case there are dockerfiles for dev and prod
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "80:80"
+    volumes:
+      # logs volume
+      - logs:/app/logs
+      # anonimous volume
+      - /app/node_modules
+      # share the backend folder with a relative path
+      - ./backend:/app
+    # either we use enviroment variables as we did for mongodb or create a .env file and point it as we did here
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    # starting in the interactive mode (-it)
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  data:
+  logs:
+# PS:
+## we dont need to specify the network

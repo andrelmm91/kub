@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: v2
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: v2
+        tier: backend
+    spec:
+      containers:
+        - name: nodeapp
+          image: andrelmm91/kub-first-app:v2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
