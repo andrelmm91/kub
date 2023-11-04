@@ -19,7 +19,7 @@ kind: Deployment
 metadata:
   name: story-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: story
@@ -44,4 +44,6 @@ spec:
               mountPath: /app/story
       volumes:
         - name: data
-          emptyDir: {}
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate

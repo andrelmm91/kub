@@ -1,4 +1,5 @@
 minikube start
+minikube start --drive
 minikube dashboard
 
 <!-- creating pods and deployment -->
@@ -59,3 +60,8 @@ $ kubectl get service nginx-test-service
 
 kubectl apply -f="deployment.yaml"
 kubectl apply -f="service.yaml"
+
+<!-- restarting pods -->
+
+kubectl scale deployment story-deployment --replicas=0
+kubectl scale deployment story-deployment --replicas=1
