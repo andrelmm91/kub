@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: story-service
+  labels:
+    group: example
+spec:
+  selector:
+    app: story
+  type: LoadBalancer
+  ports:
+    - name: name-of-the-port
+      protocol: "TCP"
+      port: 80
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+        - name: story
+          image: andrelmm91/kub-first-app:story-v3
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - name: data
+              mountPath: /app/story
+      volumes:
+        - name: data
+          emptyDir: {}
