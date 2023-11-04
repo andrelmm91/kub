@@ -65,3 +65,7 @@ kubectl apply -f="service.yaml"
 
 kubectl scale deployment story-deployment --replicas=0
 kubectl scale deployment story-deployment --replicas=1
+
+<!-- get volumes -->
+
+kubectl get pv
