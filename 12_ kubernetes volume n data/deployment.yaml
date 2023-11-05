@@ -34,7 +34,11 @@ spec:
           imagePullPolicy: Always
           env:
             - name: STORY_FOLDER
-              value: "story"
+              # takes the env var fom the env.yaml. name = metadata.name, and key = data.folder
+              valueFrom:
+                configMapKeyRef:
+                  name: data-store-env
+                  key: folder
           resources:
             requests:
               cpu: 100m
