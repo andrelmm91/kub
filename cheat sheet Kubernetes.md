@@ -69,3 +69,4 @@ kubectl scale deployment story-deployment --replicas=1
 <!-- get volumes -->
 
 kubectl get pv
+kubectl get pvc

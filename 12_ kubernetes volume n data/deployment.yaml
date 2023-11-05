@@ -30,8 +30,11 @@ spec:
     spec:
       containers:
         - name: story
-          image: andrelmm91/kub-first-app:story-v3
+          image: andrelmm91/kub-first-app:story-v4
           imagePullPolicy: Always
+          env:
+            - name: STORY_FOLDER
+              value: "story"
           resources:
             requests:
               cpu: 100m
