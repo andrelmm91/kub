@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth
+  type: ClusterIP ## this will not be reachable from outside world
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
