@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task
+  template:
+    metadata:
+      labels:
+        app: task
+    spec:
+      containers:
+        - name: task
+          image: andrelmm91/k8-network:task-v4
+          env:
+            - name: AUTH_ADDRESS
+              value: "auth-service.default"
+            - name: TASKS_FOLDER
+              value: tasks
+          ## 1) localhost because they are in the same pod. Auth service is not exposed to outside. Service.yaml has only user port 8080.
+          ## 2) for pod-to-pod communication with inbuild env variable, the address must be service_name_SERVICE_HOST (all in capslock) inside the application endpoijnt call, not here.
+          ## 3) otherwise, for pod-to-pod communication with DNS, we can use service_name.NAMESPACE and the env var must be in the application too.
+          resources:
+            requests:
+              cpu: 500m
+              memory: 100Mi
+            limits:
+              cpu: 500m
+              memory: 100Mi
