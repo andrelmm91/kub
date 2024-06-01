@@ -16,7 +16,7 @@ docker images
 
 # we can insert --rm to remove the container whe it is stoped
 
-docker run -i -t CONTAINER
+docker run -i -t IMAGE
 docker start -a -i CONTAINER
 docker run -p 80:80 -d --rm --name NAME -v LOCAL_FOLDER:CONTAINER_FOLDER CONTAINER
 
